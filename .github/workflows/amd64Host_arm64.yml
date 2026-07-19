@@ -1,6 +1,9 @@
 name: amd64Host_arm64 
 
 on:
+
+  push:
+    branches: [ woa-ci ]
   workflow_dispatch:
 
 jobs:
