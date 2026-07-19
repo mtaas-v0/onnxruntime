@@ -49,5 +49,5 @@ jobs:
       with:
         name: onnxruntime_perf_test-windows-arm64
         path: |
-          ${{ env:EXE_PATH }}
+          ${{ env.EXE_PATH }}
           build/Windows/Release/onnxruntime.dll
