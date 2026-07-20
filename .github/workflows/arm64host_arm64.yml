@@ -43,11 +43,15 @@ jobs:
         }
         echo "Found executable at: $exePath"
         echo "EXE_PATH=$exePath" >> $env:GITHUB_ENV
-    - name: Upload Perf Test Executable Artifact
+
+    - name: Compress with 7z and Exclude Files
+      if: always()
+      run: |
+        7z a -r -tzip artifact.zip "build\Windows\Release\Release\*" -xr!_deps
+    
+    - name: Upload Zip Artifact
       uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: build-dir-windows-arm64Host_arm64
-        path: |
-          build
-          !**/_deps/**
+        name: Windows-Release-dir-arm64Host_arm64
+        path: artifact.zip
