@@ -34,7 +34,8 @@ jobs:
 
     - name: Build ONNX Runtime and Perf Test
       run: |
-        ./build.bat --config Release --build_dir build/Windows --skip_tests --arm64 --build_shared_lib --parallel
+        ./build.bat --config Release --build_dir build/Windows --skip_tests --arm64 --build_shared_lib
+        #  --parallel
 
     - name: Verify and Locate Binary
       shell: pwsh
@@ -49,8 +50,9 @@ jobs:
 
     - name: Upload Perf Test Executable Artifact
       uses: actions/upload-artifact@v4
+      if: always()
       with:
-        name: onnxruntime_perf_test-windows-arm64
+        name: build-dir-windows-amd64Host_arm64
         path: |
-          ${{ env.EXE_PATH }}
-          build/Windows/Release/onnxruntime.dll
+          build
+          !**/_deps/**
