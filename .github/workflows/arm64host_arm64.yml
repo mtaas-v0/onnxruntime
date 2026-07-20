@@ -1,4 +1,4 @@
-name: amd64Host_arm64 
+name: arm64Host_arm64 
 
 on:
 
@@ -50,3 +50,4 @@ jobs:
         name: build-dir-windows-arm64Host_arm64
         path: |
           build
+          !**/_deps/**
