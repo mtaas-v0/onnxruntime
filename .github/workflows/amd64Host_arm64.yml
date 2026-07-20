@@ -16,6 +16,12 @@ jobs:
       with:
         submodules: recursive
 
+    - name: Enable Windows Long Paths
+      run: |
+        git config --system core.longpaths true
+        New-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\FileSystem" -Name "LongPathsEnabled" -Value 1 -PropertyType DWORD -Force
+    
+
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
@@ -48,11 +54,13 @@ jobs:
         echo "Found executable at: $exePath"
         echo "EXE_PATH=$exePath" >> $env:GITHUB_ENV
 
-    - name: Upload Perf Test Executable Artifact
-      uses: actions/upload-artifact@v4
+    - name: Compress with 7z and Exclude Files
       if: always()
+      run: |
+        7z a -r -tzip artifact.zip "build\*" -xr!_deps
+    
+    - name: Upload Zip Artifact
+      uses: actions/upload-artifact@v4
       with:
         name: build-dir-windows-amd64Host_arm64
-        path: |
-          build
-          !**/_deps/**
+        path: artifact.zip
