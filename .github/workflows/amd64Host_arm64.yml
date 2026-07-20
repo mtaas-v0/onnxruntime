@@ -61,6 +61,7 @@ jobs:
     
     - name: Upload Zip Artifact
       uses: actions/upload-artifact@v4
+      if: always()
       with:
         name: build-dir-windows-amd64Host_arm64
         path: artifact.zip
